@@ -21,6 +21,7 @@ function App() {
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState<number>(0);
   const [keyPressed, setKeyPressed] = useState<string | null>(null);
   const [showTranslation, setShowTranslation] = useState<boolean>(true);
+  const [isFirstRound, setIsFirstRound] = useState<boolean>(true);
 
   const validBases: RNABase[] = ['A', 'C', 'G', 'U'];
 
@@ -42,10 +43,26 @@ function App() {
   }, [currentPlayerIndex, players]);
 
   const addBase = (base: RNABase) => {
-    // Update the current player's selections and RNA sequence
     const updatedPlayers = [...players];
+    
+    // Add the base to the current player's selections
     updatedPlayers[currentPlayerIndex].selections.push(base);
-    updatedPlayers[currentPlayerIndex].rnaSequence += base;
+    
+    if (isFirstRound) {
+      // During the first round, only add the base to the current player's RNA sequence
+      updatedPlayers[currentPlayerIndex].rnaSequence += base;
+      
+      // Check if we've gone through all players in the first round
+      if (currentPlayerIndex === players.length - 1) {
+        setIsFirstRound(false);
+      }
+    } else {
+      // After the first round, add the base to all players' RNA sequences
+      updatedPlayers.forEach(player => {
+        player.rnaSequence += base;
+      });
+    }
+    
     setPlayers(updatedPlayers);
     
     // Update the current sequence
@@ -79,11 +96,16 @@ function App() {
         <div className="current-player">
           <h2>Current Turn: {players[currentPlayerIndex].name}</h2>
           <p>Press A, C, G, or U to select a base</p>
+          {isFirstRound && (
+            <p className="first-round-message">
+              First round: Each player starts with their own reading frame
+            </p>
+          )}
           {keyPressed && <p>Last key pressed: {keyPressed}</p>}
         </div>
         
         <div className="sequence-display">
-          <h2>Current RNA Sequence</h2>
+          <h2>Combined RNA Sequence</h2>
           <div className="sequence">{currentSequence || 'No bases selected yet'}</div>
           
           {currentSequence.length >= 3 && (
@@ -123,19 +145,27 @@ function App() {
             className={`player-card ${currentPlayerIndex === player.id - 1 ? 'active' : ''}`}
           >
             <h3>{player.name}</h3>
+            
             <div className="player-selections">
-              <h4>Selected Bases:</h4>
+              <h4>Bases Selected by {player.name}:</h4>
               <div>{player.selections.join(' ') || 'None'}</div>
-              
-              {player.rnaSequence.length >= 3 && (
-                <div className="player-protein">
-                  <h4>Protein Translation:</h4>
-                  <div className="player-protein-sequence">
-                    {getProteinTranslation(player.rnaSequence)}
-                  </div>
-                </div>
-              )}
             </div>
+            
+            <div className="player-rna">
+              <h4>Full RNA Sequence:</h4>
+              <div className="player-rna-sequence">
+                {player.rnaSequence || 'No bases yet'}
+              </div>
+            </div>
+            
+            {player.rnaSequence.length >= 3 && (
+              <div className="player-protein">
+                <h4>Protein Translation:</h4>
+                <div className="player-protein-sequence">
+                  {getProteinTranslation(player.rnaSequence)}
+                </div>
+              </div>
+            )}
           </div>
         ))}
       </div>

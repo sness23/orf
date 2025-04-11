@@ -130,12 +130,11 @@
   transform: translateY(-4px);
 }
 
-.player-selections {
+.player-selections, .player-rna {
   margin-top: 1rem;
-  min-height: 100px;
 }
 
-.player-selections div {
+.player-selections div, .player-rna-sequence {
   font-family: monospace;
   font-size: 1.25rem;
   letter-spacing: 0.1em;
@@ -148,6 +147,20 @@
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+  overflow-wrap: break-word;
+}
+
+.player-rna {
+  margin-top: 1rem;
+  border-top: 1px solid #ddd;
+  padding-top: 0.5rem;
+}
+
+.player-rna-sequence {
+  font-size: 1rem;
+  color: #4a4a4a;
+  overflow-x: auto;
+  max-width: 100%;
 }
 
 .player-protein {
@@ -170,11 +183,22 @@
   justify-content: center;
   color: #2a6f97;
   font-weight: bold;
+  overflow-wrap: break-word;
 }
 
 /* Base Selection */
 .current-player {
   margin-bottom: 1rem;
+}
+
+.first-round-message {
+  background-color: #ffeeba;
+  color: #856404;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  margin: 0.5rem 0;
+  font-weight: bold;
+  border-left: 4px solid #ffc107;
 }
 
 h1 {
