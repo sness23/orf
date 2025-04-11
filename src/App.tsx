@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { translateRNA, findORFs } from './utils/rnaUtils'
+import { translateRNA } from './utils/rnaUtils'
 import './App.css'
 
 type Player = {
@@ -20,7 +20,6 @@ function App() {
   const [currentSequence, setCurrentSequence] = useState<string>('');
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState<number>(0);
   const [keyPressed, setKeyPressed] = useState<string | null>(null);
-  const [showTranslation, setShowTranslation] = useState<boolean>(true);
   const [isFirstRound, setIsFirstRound] = useState<boolean>(true);
 
   const validBases: RNABase[] = ['A', 'C', 'G', 'U'];
@@ -78,15 +77,6 @@ function App() {
     return translateRNA(rnaSequence);
   };
 
-  const getOpenReadingFrames = (rnaSequence: string): string[] => {
-    if (!rnaSequence || rnaSequence.length < 3) return [];
-    
-    return findORFs(rnaSequence);
-  };
-
-  const toggleTranslation = () => {
-    setShowTranslation(!showTranslation);
-  };
 
   return (
     <div className="rna-game">
@@ -107,34 +97,6 @@ function App() {
         <div className="sequence-display">
           <h2>Combined RNA Sequence</h2>
           <div className="sequence">{currentSequence || 'No bases selected yet'}</div>
-          
-          {currentSequence.length >= 3 && (
-            <div className="protein-translation">
-              <h3>Full Protein Translation</h3>
-              <div className="protein-sequence">
-                {getProteinTranslation(currentSequence)}
-              </div>
-              
-              <button className="toggle-btn" onClick={toggleTranslation}>
-                {showTranslation ? 'Hide ORFs' : 'Show ORFs'}
-              </button>
-              
-              {showTranslation && (
-                <div className="orfs">
-                  <h3>Open Reading Frames</h3>
-                  {getOpenReadingFrames(currentSequence).length > 0 ? (
-                    <ul className="orf-list">
-                      {getOpenReadingFrames(currentSequence).map((orf, index) => (
-                        <li key={index}><code>{orf}</code></li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p>No complete open reading frames found</p>
-                  )}
-                </div>
-              )}
-            </div>
-          )}
         </div>
       </div>
       
