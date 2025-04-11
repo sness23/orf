@@ -46,6 +46,69 @@
   overflow-wrap: break-word;
 }
 
+/* Protein Translation */
+.protein-translation {
+  margin-top: 1.5rem;
+  border-top: 1px solid #ddd;
+  padding-top: 1rem;
+}
+
+.protein-sequence {
+  font-family: monospace;
+  font-size: 1.25rem;
+  letter-spacing: 0.1em;
+  background-color: white;
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin: 0.5rem 0 1rem;
+  min-height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2a6f97;
+  font-weight: bold;
+}
+
+.toggle-btn {
+  background-color: #2a6f97;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-bottom: 1rem;
+}
+
+.toggle-btn:hover {
+  background-color: #1e5879;
+}
+
+.orfs {
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.orf-list {
+  text-align: left;
+  padding-left: 1.5rem;
+}
+
+.orf-list li {
+  margin: 0.5rem 0;
+}
+
+.orf-list code {
+  font-family: monospace;
+  background-color: #f0f0f0;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  color: #2a6f97;
+}
+
 /* Players Section */
 .players-section {
   display: grid;
@@ -80,11 +143,33 @@
   padding: 0.75rem;
   border-radius: 4px;
   margin-top: 0.5rem;
-  min-height: 3rem;
+  min-height: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+.player-protein {
+  margin-top: 1rem;
+  border-top: 1px solid #ddd;
+  padding-top: 0.5rem;
+}
+
+.player-protein-sequence {
+  font-family: monospace;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  background-color: white;
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin-top: 0.5rem;
+  min-height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2a6f97;
+  font-weight: bold;
 }
 
 /* Base Selection */
@@ -105,6 +190,11 @@ h2 {
 h3 {
   color: #555;
   margin-bottom: 0.5rem;
+}
+
+h4 {
+  color: #666;
+  margin: 0.5rem 0;
 }
 
 /* Responsive adjustments */
