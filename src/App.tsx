@@ -96,9 +96,11 @@ function App() {
         <div className="current-player">
           <h2>Current Turn: {players[currentPlayerIndex].name}</h2>
           <p>Press A, C, G, or U to select a base</p>
-          {isFirstRound && (
+          {roundNumber === 1 && (
             <p className="first-round-message">
-              First round: Each player starts with their own reading frame
+              {currentPlayerIndex === 0 && "First player: Only you get your letter"}
+              {currentPlayerIndex === 1 && "Second player: You and Player 1 get your letter"}
+              {currentPlayerIndex === 2 && "Third player: All players get your letter"}
             </p>
           )}
           {keyPressed && <p>Last key pressed: {keyPressed}</p>}
