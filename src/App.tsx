@@ -20,7 +20,7 @@ function App() {
   const [currentSequence, setCurrentSequence] = useState<string>('');
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState<number>(0);
   const [keyPressed, setKeyPressed] = useState<string | null>(null);
-  const [isFirstRound, setIsFirstRound] = useState<boolean>(true);
+  const [roundNumber, setRoundNumber] = useState<number>(1);
 
   const validBases: RNABase[] = ['A', 'C', 'G', 'U'];
 
@@ -47,16 +47,26 @@ function App() {
     // Add the base to the current player's selections
     updatedPlayers[currentPlayerIndex].selections.push(base);
     
-    if (isFirstRound) {
-      // During the first round, only add the base to the current player's RNA sequence
-      updatedPlayers[currentPlayerIndex].rnaSequence += base;
-      
-      // Check if we've gone through all players in the first round
-      if (currentPlayerIndex === players.length - 1) {
-        setIsFirstRound(false);
+    // Special handling for each round
+    if (roundNumber === 1) {
+      // First round - Only Player 1 gets their letter
+      if (currentPlayerIndex === 0) {
+        updatedPlayers[0].rnaSequence += base;
+      } 
+      // When Player 2 selects, both Player 1 and 2 get the letter
+      else if (currentPlayerIndex === 1) {
+        updatedPlayers[0].rnaSequence += base;
+        updatedPlayers[1].rnaSequence += base;
+      }
+      // When Player 3 selects, all players get the letter and move to regular rounds
+      else if (currentPlayerIndex === 2) {
+        updatedPlayers.forEach(player => {
+          player.rnaSequence += base;
+        });
+        setRoundNumber(2); // Move to regular rounds after Player 3's first turn
       }
     } else {
-      // After the first round, add the base to all players' RNA sequences
+      // Regular rounds - add the base to all players' RNA sequences
       updatedPlayers.forEach(player => {
         player.rnaSequence += base;
       });
